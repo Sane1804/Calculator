@@ -45,6 +45,6 @@ body {
 }
 
 
-.span-btn {
+.btn-span {
     grid-column: span 2;
-}
+}  
