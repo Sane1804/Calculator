@@ -16,21 +16,40 @@ body {
 
 
 #calculator {
-    width: 500px;
-    height: 600px;
+    width: 400px;
+    height: 500px;
     border: 1px solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 30px
+    gap: 10px;  
 }
 
 #screen-container {
-    height: 150px;
+    height: 110px;
     width: 90%;
     border: 1px solid black;
+    display: grid;
+    grid-template-rows: 1fr 2fr;
 }
+
+#second-screen,
+#main-screen {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 10px 25px;
+}
+
+#main-screen {
+    font-size: 30px;
+}
+
+
+
+
+
 
 
 #buttons-container {
@@ -45,6 +64,10 @@ body {
 }
 
 
-.btn-span {
-    grid-column: span 2;
+.btn-span0 {
+    grid-column-start: 3;
 }  
+
+.btn-span1{
+    grid-column-start: 4;
+}

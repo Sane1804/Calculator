@@ -1,4 +1,7 @@
-let btnContainer = document.querySelector("#buttons-container");
+const BTN_CONTAINER = document.querySelector("#buttons-container");
+const MAIN_SCREEN = document.querySelector("#main-screen");
+const SECOND_SCREEN = document.querySelector("#second-screen");
+
 
 const appendBtn = (node) => {
     let box = node;
@@ -8,19 +11,21 @@ const appendBtn = (node) => {
         let btn = document.createElement("button");
         btn.classList.add("btn");
         if(i < 2){
-            btn.classList.add("btn-span");
+            btn.classList.add(`btn-span${i}`);
         }
         btn.textContent = arr[i];
         box.appendChild(btn);
     }
 }
-appendBtn(btnContainer)
+appendBtn(BTN_CONTAINER)
 
 
 const BUTTONS = document.querySelectorAll(".btn");
 
-
-
 BUTTONS.forEach(btn => btn.addEventListener("click", function (e) {
-    console.log(e.target)
+    if (e.target.textContent == "C"){
+        MAIN_SCREEN.textContent = 0;
+        SECOND_SCREEN.textContent = "";
+    }
+
 }));
