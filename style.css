@@ -63,11 +63,10 @@ body {
     padding: 5px;
 }
 
-
-.btn-span0 {
-    grid-column-start: 3;
-}  
-
-.btn-span1{
-    grid-column-start: 4;
+.autor {
+    grid-column: span 2;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
