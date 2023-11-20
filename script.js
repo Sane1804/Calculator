@@ -28,6 +28,14 @@ BUTTONS.forEach(btn => btn.addEventListener("click", function (e) {
     if (e.target.textContent == "C"){
         MAIN_SCREEN.textContent = 0;
         SECOND_SCREEN.textContent = "";
+    } else if (e.target.textContent == "DELETE"){
+        if (MAIN_SCREEN.textContent.length <= 1){
+                MAIN_SCREEN.textContent = "";
+        } else {
+            MAIN_SCREEN.textContent = MAIN_SCREEN.textContent.slice(0, MAIN_SCREEN.textContent.length-1)
+        }
     }
+
+
 
 }));
