@@ -47,7 +47,7 @@ const displayNumbers = (text) => {
 
 
 const displayOperators = (ope, arr) => {
-    if (!arr.includes(MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1])){
+    if (!arr.includes(MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1]) && MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1] !== "."){
         MAIN_SCREEN.textContent += ope;
     }
 }
