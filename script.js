@@ -53,10 +53,23 @@ const displayOperators = (ope, arr) => {
 }
 
 
+const getLastValue = (text, ope) => {
+    let values = text;
+    let operators = ope;
+    if (!operators.includes(values[0])) {
+        values = "+" + values
+    }
+    let operInValues = values.match(/[\+\-\/\*]/g);
+    let lastOperator = operInValues[operInValues.length-1];
+    let lastValue = values.slice(values.lastIndexOf(lastOperator));
+    return lastValue;
+}
+
+
 const displayDot = (dot) => {
-    let value = MAIN_SCREEN.textContent.split(/[\+\-\/\*]/g);
-    let lastValue = value[value.length-1]
-    if(!lastValue.includes(".")){
+    let operators = ARRAY.join("").match(/[\+\-\/\*]/g);
+    let numValue = getLastValue(MAIN_SCREEN.textContent, operators)
+    if(!numValue.includes(".") && !operators.includes(numValue[numValue.length-1])){
         MAIN_SCREEN.textContent += dot;
     }
 }
