@@ -75,6 +75,83 @@ const displayDot = (dot) => {
 }
 
 
+const convertOperators = (arr, removed) => {
+    let newOpertor = removed == arr[1] ? "+" : "-";
+    arr[1] = newOpertor;
+}
+
+const pemdasSort = (arr) => {
+    let output = arr.sort((a, b) => {
+        const precedence = {
+        '+': 1,
+        '-': 2,
+        '*': 3,
+        '/': 4,
+        };
+        return precedence[b] - precedence[a]
+    })
+    return output
+}
+
+
+const divide = (arr, operator) => {
+    let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
+    let result = Number(input[0]) / Number(input[2]);
+    arr.splice(arr.indexOf(operator)-1, 3, result);
+}
+
+const multiply = (arr, operator) => {
+    let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
+    let result = Number(input[0]) * Number(input[2]);
+    arr.splice(arr.indexOf(operator)-1, 3, result);
+}
+
+const add = (arr, operator) => {
+    let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
+    let result = Number(input[0]) + Number(input[2]);
+    arr.splice(arr.indexOf(operator)-1, 3, result);
+}
+
+
+const subtract = (arr, operator) => {
+    let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
+    let result = Number(input[0]) - Number(input[2]);
+    arr.splice(arr.indexOf(operator)-1, 3, result);
+}
+
+
+const calculate = (array, ope, revOpe) => {
+    for (let i = 0; i < ope.length; i++){
+        if (ope[i] == "/"){
+            divide(array, ope[i], revOpe)
+        } else if (ope[i] == "*"){
+            multiply(array, ope[i], revOpe)
+        } else if (ope[i] == "+"){
+            add(array, ope[i], revOpe)
+        } else if (ope[i] == "-"){
+            subtract(array,ope[i], revOpe)
+        }
+    }
+}
+
+const result = (ope) => {
+    let output = MAIN_SCREEN.textContent.match(/(?<number>\d+(?:\.\d+)?)|(?<operator>[\+\-\/\*])/g);
+    let btnOperators = ope;
+    let removedOperator = "";
+    if (btnOperators.includes(output[0])){
+        removedOperator = output.shift();
+        convertOperators(output, removedOperator)
+    }
+    let operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
+    console.log(output)
+    calculate(output, operators, removedOperator)
+
+    console.log(operators)
+    console.log(removedOperator)
+    console.log(output)
+}
+
+
 const BUTTONS = document.querySelectorAll(".btn");
 
 BUTTONS.forEach(btn => btn.addEventListener("click", function (e) {
@@ -95,5 +172,8 @@ BUTTONS.forEach(btn => btn.addEventListener("click", function (e) {
 
     } else if (e.target.textContent == "."){
         displayDot(e.target.textContent)
+
+    } else if (e.target.textContent == "=" && !operators.includes(MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1])){
+        result(operators)
     }
 }));
