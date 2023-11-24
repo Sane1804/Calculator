@@ -4,22 +4,28 @@ const SECOND_SCREEN = document.querySelector("#second-screen");
 const ARRAY = ["C", "D", "7", "8", "9", "/", "4", "5" ,"6", "*", "1", "2", "3", "-", ".", "0", "=", "+"];
 
 
-const appendBtn = (node) => {
-    let box = node;
+// const appendBtn = (node) => {
+//     let box = node;
 
-    let div = document.createElement("div");
-    div.classList.add("autor");
-    div.textContent = "Made By Sane";
-    box.appendChild(div);
+//     let div = document.createElement("div");
+//     div.classList.add("autor");
+//     div.textContent = "Made By Sane";
+//     box.appendChild(div);
 
-    for (let i = 0; i < ARRAY.length; i++){
-      let btn = document.createElement("button");
-      btn.classList.add("btn");
-      btn.textContent = ARRAY[i]
-      box.appendChild(btn);
-    }
-}
-appendBtn(BTN_CONTAINER)
+//     for (let i = 0; i < ARRAY.length; i++){
+//       let btn = document.createElement("button");
+//       btn.classList.add("btn");
+//       if (i == 0){
+//         btn.classList.add(`btn${ARRAY[i]}`)
+//       } else if (i == 1){
+//         btn.classList.add("btnD")
+//         btn.appendChild(icon);
+//       }
+//       btn.textContent = ARRAY[i]
+//       box.appendChild(btn);
+//     }
+// }
+// appendBtn(BTN_CONTAINER)
 
 
 const clear = () => {
@@ -76,17 +82,19 @@ const displayDot = (dot) => {
 
 
 const convertOperators = (arr, removed) => {
-    let newOpertor = removed == arr[1] ? "+" : "-";
+    if (arr[1] !== "/" && arr[1] !== "*"){
+        let newOpertor = removed == arr[1] ? "+" : "-";
     arr[1] = newOpertor;
+    }
 }
 
 const pemdasSort = (arr) => {
     let output = arr.sort((a, b) => {
         const precedence = {
         '+': 1,
-        '-': 2,
-        '*': 3,
-        '/': 4,
+        '-': 1,
+        '/': 2,
+        '*': 2,
         };
         return precedence[b] - precedence[a]
     })
@@ -120,16 +128,16 @@ const subtract = (arr, operator) => {
 }
 
 
-const calculate = (array, ope, revOpe) => {
+const calculate = (array, ope, revOp) => {
     for (let i = 0; i < ope.length; i++){
         if (ope[i] == "/"){
-            divide(array, ope[i], revOpe)
+            divide(array, ope[i])
         } else if (ope[i] == "*"){
-            multiply(array, ope[i], revOpe)
+            multiply(array, ope[i])
         } else if (ope[i] == "+"){
-            add(array, ope[i], revOpe)
+            add(array, ope[i])
         } else if (ope[i] == "-"){
-            subtract(array,ope[i], revOpe)
+            subtract(array,ope[i])
         }
     }
 }
@@ -143,12 +151,9 @@ const result = (ope) => {
         convertOperators(output, removedOperator)
     }
     let operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
-    console.log(output)
     calculate(output, operators, removedOperator)
-
-    console.log(operators)
-    console.log(removedOperator)
-    console.log(output)
+    SECOND_SCREEN.textContent = MAIN_SCREEN.textContent + "=";
+    MAIN_SCREEN.textContent = output;
 }
 
 
@@ -161,7 +166,7 @@ BUTTONS.forEach(btn => btn.addEventListener("click", function (e) {
     if (e.target.textContent == "C"){
         clear()
     
-    } else if (e.target.textContent == "D"){
+    } else if (e.target.className.length == 10){
         removeLastValue()
     
     } else if (numbers.includes(e.target.textContent)){
