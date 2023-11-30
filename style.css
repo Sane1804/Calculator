@@ -123,7 +123,15 @@ body {
     color: white;
 }
 
+.btn-C:active {
+    background-color: darkred;
+}
+
 .btn-Backspace {
     background-color: rgb(0,0,0,0.4);
     color: white;
+}
+
+.btn-Backspace:active {
+    background-color: black;
 }
