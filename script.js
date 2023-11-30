@@ -1,31 +1,6 @@
-const BTN_CONTAINER = document.querySelector("#buttons-container");
 const MAIN_SCREEN = document.querySelector("#main-screen");
 const SECOND_SCREEN = document.querySelector("#second-screen");
 const ARRAY = ["C", "D", "7", "8", "9", "/", "4", "5" ,"6", "*", "1", "2", "3", "-", ".", "0", "=", "+"];
-
-
-// const appendBtn = (node) => {
-//     let box = node;
-
-//     let div = document.createElement("div");
-//     div.classList.add("autor");
-//     div.textContent = "Made By Sane";
-//     box.appendChild(div);
-
-//     for (let i = 0; i < ARRAY.length; i++){
-//       let btn = document.createElement("button");
-//       btn.classList.add("btn");
-//       if (i == 0){
-//         btn.classList.add(`btn${ARRAY[i]}`)
-//       } else if (i == 1){
-//         btn.classList.add("btnD")
-//         btn.appendChild(icon);
-//       }
-//       btn.textContent = ARRAY[i]
-//       box.appendChild(btn);
-//     }
-// }
-// appendBtn(BTN_CONTAINER)
 
 
 const clear = () => {
@@ -81,10 +56,11 @@ const displayDot = (dot) => {
 }
 
 
-const convertOperators = (arr, removed) => {
-    if (arr[1] !== "/" && arr[1] !== "*"){
-        let newOpertor = removed == arr[1] ? "+" : "-";
-    arr[1] = newOpertor;
+const convertToNumbers = (arr) => {
+    for (let i = 0; i < arr.length; i++){
+        if (arr[i] !== "-" && arr[i] !== "+" && arr[i] !== "*" &&  arr[i] !== "/"){
+            arr[i] = Number(arr[i])
+        }
     }
 }
 
@@ -104,31 +80,31 @@ const pemdasSort = (arr) => {
 
 const divide = (arr, operator) => {
     let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
-    let result = Number(input[0]) / Number(input[2]);
+    let result = input[0] / input[2];
     arr.splice(arr.indexOf(operator)-1, 3, result);
 }
 
 const multiply = (arr, operator) => {
     let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
-    let result = Number(input[0]) * Number(input[2]);
+    let result = input[0] * input[2];
     arr.splice(arr.indexOf(operator)-1, 3, result);
 }
 
 const add = (arr, operator) => {
     let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
-    let result = Number(input[0]) + Number(input[2]);
+    let result = input[0] + input[2];
     arr.splice(arr.indexOf(operator)-1, 3, result);
 }
 
 
 const subtract = (arr, operator) => {
     let input = arr.slice(arr.indexOf(operator)-1, arr.indexOf(operator)+2);
-    let result = Number(input[0]) - Number(input[2]);
+    let result = input[0] - input[2];
     arr.splice(arr.indexOf(operator)-1, 3, result);
 }
 
 
-const calculate = (array, ope, revOp) => {
+const calculate = (array, ope) => {
     for (let i = 0; i < ope.length; i++){
         if (ope[i] == "/"){
             divide(array, ope[i])
@@ -144,13 +120,19 @@ const calculate = (array, ope, revOp) => {
 
 const result = (ope) => {
     let output = MAIN_SCREEN.textContent.match(/(?<number>\d+(?:\.\d+)?)|(?<operator>[\+\-\/\*])/g);
+    convertToNumbers(output)
     let btnOperators = ope;
     let removedOperator = "";
+    let operators = "";
     if (btnOperators.includes(output[0])){
         removedOperator = output.shift();
-        convertOperators(output, removedOperator)
+        operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
+        if (removedOperator == "-"){
+            output[0] = Number(-Math.abs(output[0]))
+        }
+    } else {
+        operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
     }
-    let operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
     calculate(output, operators, removedOperator)
     SECOND_SCREEN.textContent = MAIN_SCREEN.textContent + "=";
     MAIN_SCREEN.textContent = output;
