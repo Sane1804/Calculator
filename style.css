@@ -113,10 +113,10 @@ body {
 .btn:active{
     border-top: 0px;
     border-left: 0px;
-    border-right: 2px solid whitesmoke;
-    border-bottom: 2px solid whitesmoke;
+    border-right: 1px solid whitesmoke;
+    border-bottom: 1px solid whitesmoke;
+    background-color: rgb(80,80,80);
 }
-
 
 .btn-C {
     background-color: red;
