@@ -17,23 +17,6 @@ const removeLastValue = () => {
     }
 }
 
-
-const displayNumbers = (text) => {
-    if (MAIN_SCREEN.textContent == "0"){
-        MAIN_SCREEN.textContent = text;
-    } else {
-        MAIN_SCREEN.textContent += text;
-    }
-}
-
-
-const displayOperators = (ope, arr) => {
-    if (!arr.includes(MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1]) && MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1] !== "."){
-        MAIN_SCREEN.textContent += ope;
-    }
-}
-
-
 const getLastValue = (text, ope) => {
     let values = text;
     let operators = ope;
@@ -46,9 +29,25 @@ const getLastValue = (text, ope) => {
     return lastValue;
 }
 
+const displayNumbers = (text) => {
+    let operators = ["/", "*", "+", "-"];
+    if (MAIN_SCREEN.textContent == "0"){
+        MAIN_SCREEN.textContent = text;
+    } else if (getLastValue(MAIN_SCREEN.textContent, operators).length <= 7){
+        MAIN_SCREEN.textContent += text;
+    }
+}
+
+
+const displayOperators = (ope, arr) => {
+    if (!arr.includes(MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1]) && MAIN_SCREEN.textContent[MAIN_SCREEN.textContent.length-1] !== "."){
+        MAIN_SCREEN.textContent += ope;
+    }
+}
+
 
 const displayDot = (dot) => {
-    let operators = ARRAY.join("").match(/[\+\-\/\*]/g);
+    let operators = ["/", "*", "+", "-"];
     let numValue = getLastValue(MAIN_SCREEN.textContent, operators)
     if(!numValue.includes(".") && !operators.includes(numValue[numValue.length-1])){
         MAIN_SCREEN.textContent += dot;

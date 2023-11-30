@@ -18,6 +18,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 95vh;
 }
 
 
@@ -94,13 +95,27 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     background-color: white;
     border-radius: 10px;
 }
 
 .btn {
     font-weight: 900;
+    font-size: 20px;
+    background-color: grey;
+    border-radius: 5px;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
 }
+
+.btn:active{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 2px solid whitesmoke;
+    border-bottom: 2px solid whitesmoke;
+}
+
 
 .btn-C {
     background-color: red;
