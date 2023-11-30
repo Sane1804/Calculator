@@ -102,12 +102,12 @@ body {
     font-weight: 900;
 }
 
-.clear {
+.btn-C {
     background-color: red;
     color: white;
 }
 
-.delete {
+.btn-Backspace {
     background-color: rgb(0,0,0,0.4);
     color: white;
 }

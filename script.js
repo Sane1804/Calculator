@@ -1,6 +1,6 @@
 const MAIN_SCREEN = document.querySelector("#main-screen");
 const SECOND_SCREEN = document.querySelector("#second-screen");
-const ARRAY = ["C", "D", "7", "8", "9", "/", "4", "5" ,"6", "*", "1", "2", "3", "-", ".", "0", "=", "+"];
+// const ARRAY = ["C", "D", "7", "8", "9", "/", "4", "5" ,"6", "*", "1", "2", "3", "-", ".", "0", "=", "+"];
 
 
 const clear = () => {
@@ -72,7 +72,7 @@ const pemdasSort = (arr) => {
         '/': 2,
         '*': 2,
         };
-        return precedence[b] - precedence[a]
+    return precedence[b] - precedence[a]
     })
     return output
 }
@@ -120,35 +120,39 @@ const calculate = (array, ope) => {
 
 const result = (ope) => {
     let output = MAIN_SCREEN.textContent.match(/(?<number>\d+(?:\.\d+)?)|(?<operator>[\+\-\/\*])/g);
-    convertToNumbers(output)
-    let btnOperators = ope;
-    let removedOperator = "";
-    let operators = "";
-    if (btnOperators.includes(output[0])){
-        removedOperator = output.shift();
-        operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
-        if (removedOperator == "-"){
-            output[0] = Number(-Math.abs(output[0]))
-        }
+    if (output.length < 2){
+        MAIN_SCREEN.textContent = output;
     } else {
-        operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
+        convertToNumbers(output)
+        let btnOperators = ope;
+        let removedOperator = "";
+        let operators = "";
+        if (btnOperators.includes(output[0])){
+            removedOperator = output.shift();
+            operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
+            if (removedOperator == "-"){
+                output[0] = Number(-Math.abs(output[0]))
+            }
+        } else {
+            operators = pemdasSort(output.join('').match(/[\+\-\*\/]/g));
+        }
+        calculate(output, operators, removedOperator)
+        SECOND_SCREEN.textContent = MAIN_SCREEN.textContent + "=";
+        MAIN_SCREEN.textContent = output;
     }
-    calculate(output, operators, removedOperator)
-    SECOND_SCREEN.textContent = MAIN_SCREEN.textContent + "=";
-    MAIN_SCREEN.textContent = output;
 }
 
 
 const BUTTONS = document.querySelectorAll(".btn");
 
 BUTTONS.forEach(btn => btn.addEventListener("click", function (e) {
-    let numbers = ARRAY.join("").match(/[0-9]/g);
-    let operators = ARRAY.join("").match(/[\+\-\/\*]/g)
+    let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let operators = ["/", "*", "+", "-"];
 
     if (e.target.textContent == "C"){
         clear()
     
-    } else if (e.target.className.length == 10){
+    } else if (e.target.className.length == 17){
         removeLastValue()
     
     } else if (numbers.includes(e.target.textContent)){
@@ -164,3 +168,30 @@ BUTTONS.forEach(btn => btn.addEventListener("click", function (e) {
         result(operators)
     }
 }));
+
+
+window.addEventListener("keydown",  (e) => {
+    let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let operators = ["/", "*", "+", "-"];
+    let value = e.key;
+    let obj = {
+        "-": "subtract",
+        "+": "plus",
+        "*": "multi",
+        "/":"div", 
+        ".": "dot",
+    }
+    if (value == "C"){
+        document.querySelector(`.btn-${value}`).dispatchEvent(new MouseEvent("click"));
+    } else if (value == "Backspace"){
+        document.querySelector(`.btn-${value}`).dispatchEvent(new MouseEvent("click"));
+    } else if (numbers.includes(value)){
+        document.querySelector(`.btn-${value}`).dispatchEvent(new MouseEvent('click'));
+    } else if (operators.includes(value)){
+        document.querySelector(`.btn-${obj[value]}`).dispatchEvent(new MouseEvent("click"));
+    } else if (value == "."){
+        document.querySelector(`.btn-${obj[value]}`).dispatchEvent(new MouseEvent("click"))
+    } else if (value == "Enter"){
+        document.querySelector(`.btn-${value}`).dispatchEvent(new MouseEvent("click"));
+    }
+})
