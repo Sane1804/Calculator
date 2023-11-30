@@ -42,7 +42,7 @@ body {
     display: grid;
     grid-template-rows:  minmax(0, 45px)  minmax(0, 65px);
     border-radius: 10px;
-    background-color: #6bba6250;
+    background-color: #6bba62ff;
     border: 1px solid green;
 }
 

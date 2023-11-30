@@ -137,6 +137,10 @@ const result = (ope) => {
         }
         calculate(output, operators, removedOperator)
         SECOND_SCREEN.textContent = MAIN_SCREEN.textContent + "=";
+        // if output is a float number fixed it to one
+        if (output[0].toString().includes(".")){
+            output[0] = Number(output[0]).toFixed(1);
+        }
         MAIN_SCREEN.textContent = output;
     }
 }
